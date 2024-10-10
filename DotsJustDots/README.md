@@ -1,21 +1,18 @@
 # Template p5 Project
 
-Author Name
+Adam Fulawka
 
-[View this project online](URL_FOR_THE_RUNNING_PROJECT)
+[View this project online](https://cheeseelemental.github.io/cart253/DotsJustDots/)
 
 ## Description
 
-This description should help the reader understand what the program is, what any controls do, and perhaps what the desired experience it.
+Based on functionality taught to me by Mathiled, this ended up being an interesting exercise in cooridination.  Try to keep the mouse (the smallest circle) lined up with the other two cirlces as they move across the screen.  
 
 ## Credits
 
-This bit should describe what tools were used. For example:
-
-This project uses [p5.js](https://p5js.org).
+This project uses [p5.js](https://p5js.org) and map functionality
 
 ## Attribution
 
-This bit should attribute any assets or other elements used taken from other sources. For example:
+Special thanks to Kiana for teaching me how to map function, Mathilde for the concept, and Professor Barr for basically the rest of the code.  
 
-The fish images were sourced from the [Creative Commons image "Georgia Aquarium Fish"](https://search.creativecommons.org/photos/96f6f770-eac1-488c-8abb-16bee7bcc874) by Mike Johnston which is licensed with CC BY 2.0. To view a copy of this license, visit https://creativecommons.org/licenses/by/2.0/.
