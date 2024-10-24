@@ -28,11 +28,14 @@ const frog = {
         x: undefined,
         y: 480,
         size: 20,
-        speed: 20,
+        speed: 5,
+        defaultSpeed: 5,
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
     }
 };
+
+let flyEaten = false;
 
 // Our fly
 // Has a position, size, and speed of horizontal movement
@@ -40,7 +43,10 @@ const fly = {
     x: 0,
     y: 200, // Will be random
     size: 10,
-    speed: 3
+    velocity: {
+        x: 3,
+        y: 0,
+    }
 };
 
 /**
@@ -69,7 +75,13 @@ function draw() {
  */
 function moveFly() {
     // Move the fly
-    fly.x += fly.speed;
+    fly.x += fly.velocity.x;
+    fly.y += fly.velocity.y;
+    let flyChange = random(0, 1);
+    if (flyChange >= 0.1) {
+        fly.velocity.y = random(-3, 3);
+    }
+
     // Handle the fly going off the canvas
     if (fly.x > width) {
         resetFly();
@@ -110,6 +122,7 @@ function moveTongue() {
     frog.tongue.x = frog.body.x;
     // If the tongue is idle, it doesn't do anything
     if (frog.tongue.state === "idle") {
+        flyEaten = false;
         // Do nothing
     }
     // If the tongue is outbound, it moves up
@@ -122,10 +135,16 @@ function moveTongue() {
     }
     // If the tongue is inbound, it moves down
     else if (frog.tongue.state === "inbound") {
+        if (flyEaten === true) {
+            fill(255);
+            ellipse(frog.tongue.x + random(-30, 30), frog.tongue.y + random(-30, 30), 80)
+        }
         frog.tongue.y += frog.tongue.speed;
         // The tongue stops if it hits the bottom
         if (frog.tongue.y >= height) {
             frog.tongue.state = "idle";
+            frog.tongue.speed = frog.tongue.defaultSpeed;
+
         }
     }
 }
@@ -135,6 +154,8 @@ function moveTongue() {
  */
 function drawFrog() {
     // Draw the tongue tip
+
+    noCursor();
     push();
     fill("#ff0000");
     noStroke();
@@ -160,11 +181,15 @@ function drawFrog() {
  * Handles the tongue overlapping the fly
  */
 function checkTongueFlyOverlap() {
+
     // Get distance from tongue to fly
     const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
     if (eaten) {
+        flyEaten = true;
+        fly.velocity.x = fly.velocity.x + .5;
+
         // Reset the fly
         resetFly();
         // Bring back the tongue
@@ -178,5 +203,12 @@ function checkTongueFlyOverlap() {
 function mousePressed() {
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
+
+
+        /*Can I make the toung shoo out faster if I click it lots?**/
+
+    }
+    else if (frog.tongue.state === "outbound") {
+        frog.tongue.speed *= 2;
     }
 }
