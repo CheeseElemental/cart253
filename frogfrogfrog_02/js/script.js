@@ -7,22 +7,20 @@
  * Instructions:
  * - Move the frog with your mouse
  * - Repeatedly Click the mouse to try to grab a fly
- * - The flies will start to panic
+ * - The flies will start to panic and try to avoid your tounge.
+ * - Reload the page to play again
  * 
- * Made with p5
- * https://p5js.org/
+ /** A game about eating flies and destroying the lives of their fly families and fly communities.
+ 
  */
 
 "use strict";
 
 let titleString = "Flymonade!"
 let endingString = "You're a monster"
-
-// Our frog
-
 let panicFly = {
     x: undefined,
-    y: undefined
+    y: undefined,
 
 }
 
@@ -89,6 +87,7 @@ function setup() {
     resetFly();
 }
 
+//"calling" the different title, game, and end screens
 function draw() {
     if (state === "title") {
         title();
@@ -105,6 +104,7 @@ function draw() {
 }
 
 
+//making the appearance of the title screen
 function title() {
     background("#87ceeb")
 
@@ -117,6 +117,8 @@ function title() {
         state = "game";
     }
 }
+
+//making the appearance of the game screen
 function game() {
     background("#87ceeb");
     moveFly();
@@ -127,6 +129,7 @@ function game() {
     checkTongueFlyOverlap();
 }
 
+//making the appearance of the final screen
 function ending() {
     background("#87ceeb")
 
@@ -263,12 +266,15 @@ function checkTongueFlyOverlap() {
 
     // Get distance from tongue to fly
     const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
+
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
     if (eaten) {
         flyEaten = true;
         fly.velocity.x = fly.velocity.x + .5;
         frog.flysEaten += 1;
+
+        //on the (4th) fly, go to the ending screen and end the game.  
         if (frog.flysEaten >= 4) {
             state = "ending"
         }
@@ -289,7 +295,6 @@ function mousePressed() {
 
 
         /*Clicking the mouse repeatedly increases it's speed**/
-
     }
     else if (frog.tongue.state === "outbound") {
         frog.tongue.speed *= 1.7;
