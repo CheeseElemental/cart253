@@ -15,6 +15,9 @@
 
 "use strict";
 
+let titleString = "Flymonade!"
+let endingString = "You're a monster"
+
 // Our frog
 
 let panicFly = {
@@ -39,7 +42,9 @@ const frog = {
         defaultSpeed: .5,
         // Determines how the tongue moves each frame
         state: "idle" // State can be: idle, outbound, inbound
-    }
+    },
+    flysEaten: 0,
+
 };
 
 let flyEaten = false;
@@ -60,10 +65,14 @@ const fly = {
 };
 
 let caughtFlyImage = undefined;
+let endingImage = undefined;
+let state = "title";
+
 
 
 function preload() {
     caughtFlyImage = loadImage("assets/images/flyPanic.png");
+    endingImage = loadImage("assets/images/Monster.png");
 }
 
 /**
@@ -72,11 +81,43 @@ function preload() {
 function setup() {
     createCanvas(640, 480);
 
+    //text settings
+    textSize(32);
+    textAlign(CENTER, CENTER);
+
     // Give the fly its first random position
     resetFly();
 }
 
 function draw() {
+    if (state === "title") {
+        title();
+    }
+
+    else if (state === "game") {
+        game();
+    }
+
+    else if (state === "ending") {
+        ending();
+    }
+
+}
+
+
+function title() {
+    background("#87ceeb")
+
+    push();
+    fill("#ffffff");
+    text(titleString, width / 2, height / 2)
+    pop();
+
+    if (mouseIsPressed) {
+        state = "game";
+    }
+}
+function game() {
     background("#87ceeb");
     moveFly();
     drawFly();
@@ -84,6 +125,18 @@ function draw() {
     moveTongue();
     drawFrog();
     checkTongueFlyOverlap();
+}
+
+function ending() {
+    background("#87ceeb")
+
+    push();
+    fill("#ffffff");
+    text(endingString, width / 2, 30);
+    imageMode(CENTER);
+    image(endingImage, width / 2, height / 2,);
+    pop();
+
 }
 
 /**
@@ -215,6 +268,10 @@ function checkTongueFlyOverlap() {
     if (eaten) {
         flyEaten = true;
         fly.velocity.x = fly.velocity.x + .5;
+        frog.flysEaten += 1;
+        if (frog.flysEaten >= 4) {
+            state = "ending"
+        }
 
         // Reset the fly
         resetFly();

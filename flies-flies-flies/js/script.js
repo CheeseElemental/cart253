@@ -1,54 +1,91 @@
-"use strict";
+/**
+ * Boingo
+ * Pippin Barr
+ *
+ * A ball that bounces around on the canvas
+ */
 
-let bubbles = [];
+let theBall = undefined; // Will create it with createBall()
 
+const balls = [];
+/**
+ * Create the canvas and the ball
+ */
 function setup() {
+    // Create the canvas
     createCanvas(400, 400);
+    // Create the ball
 }
 
-function createBubble() {
-    return {
-        x: random(width),
-        y: height,
-        size: random(20, 50),
-        speed: random(1, 3)
-    };
-}
-
-function draw() {
-    background("#add8e6");
-    for (let bubble of bubbles) {
-        moveBubble(bubble);
-        drawBubble(bubble);
-    }
-}
-
-function moveBubble(bubble) {
-    bubble.y -= bubble.speed; // Bubbles move up
-    if (bubble.y < 0 - bubble.size) {
-        // Remove bubble if it floats off-screen
-        let index = bubbles.indexOf(bubble);
-        bubbles.splice(index, 1);
-    }
-}
-
-function drawBubble(bubble) {
-    fill(255, 200, 200, 150);
-    ellipse(bubble.x, bubble.y, bubble.size);
-}
-
-function mousePressed() {
-    for (let bubble of bubbles) {
-        let d = dist(mouseX, mouseY, bubble.x, bubble.y);
-        if (d < bubble.size / 2) {
-            let index = bubbles.indexOf(bubble);
-            bubbles.splice(index, 1);
-            break; // Prevents removing multiple bubbles with one click
+/**
+ * Creates a random ball
+ */
+function createBall() {
+    // Create a ball object with appropriate properties
+    const newBall = {
+        // Position and dimensions
+        x: 200,
+        y: 200,
+        size: 20,
+        // Colour
+        fill: "#000000",
+        // Movement
+        velocity: {
+            x: random(-5, 5),
+            y: random(-5, 5)
         }
+    };
+    return newBall;
+}
+
+/**
+ * Moves and draws the ball
+ */
+function draw() {
+    background("#87ceeb");
+
+    for (let ball of balls) {
+
+
+        moveBall(ball);
+        bounceBall(ball);
+        drawBall(ball);
     }
 }
 
-function keyPressed() {
-    let newBubble = createBubble();
-    bubbles.push(newBubble);
+/**
+ * Moves the ball according to its velocity
+ */
+function moveBall(ball) {
+    ball.x += ball.velocity.x;
+    ball.y += ball.velocity.y;
+}
+
+/**
+ * Bounces the ball off the walls
+ */
+function bounceBall(ball) {
+    // Check if the ball has reached the left or right
+    const bounceX = (ball.x > width || ball.x < 0);
+    // Check if the ball has reached the top or bottom
+    const bounceY = (ball.y > height || ball.y < 0);
+
+    // Handle bouncing horizontally
+    if (bounceX) {
+        ball.velocity.x *= -1;
+    }
+    // Handle bouncing vertically
+    if (bounceY) {
+        ball.velocity.y *= -1;
+    }
+}
+
+/**
+ * Draw the ball on the canvas
+ */
+function mousePressed() {
+    if (balls.length < 10) {
+        let newBall = createBall();
+        balls.push(newBall);
+    }
 }
