@@ -10,7 +10,8 @@
  * - The flies will start to panic and try to avoid your tounge.
  * - Reload the page to play again
  * 
- /** A game about eating flies and destroying the lives of their fly families and fly communities.
+ /** A game about eating flies and destroying the lives of their 
+  * fly families and fly communities.
  
  */
 

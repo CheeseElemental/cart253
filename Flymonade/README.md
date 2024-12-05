@@ -11,7 +11,7 @@ This project uses [p5.js](https://p5js.org).
 
 ## Attribution
 Lightly modified code from Professor Pippin Barr
-Expertise provided by Professor Barr, Bianca, Kiana, Mathilde and many others who's last names I don't know
+Expertise provided by Professor Barr, Bianca, Kiana, Mathilde and many others who's last names I don't know.
  
 
 
